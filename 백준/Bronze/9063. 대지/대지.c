@@ -5,39 +5,18 @@
 
 int main() {
 	
-	int n, xmax, xmin, ymax, ymin;
-	scanf("%d", &n);
+	int x, y, xmax=-1e+4, xmin=1e+4, ymax=-1e+4, ymin=1e+4;
+	int n; scanf("%d", &n);
 
-	int** c = (int**)malloc(sizeof(int*) * n);
-	for (int i = 0; i < n; i++) {
-		c[i] = (int*)malloc(sizeof(int) * 2);
-	}
-
-	for (int i = 0; i < n; i++) {
-		scanf("%d %d", &c[i][0], &c[i][1]);
-	}
-	if (n < 2) {printf("0"); return 0;}
-	//find max x
-	xmax = c[0][0];
-	for (int i = 0; i < n; i++) {
-		if (xmax < c[i][0]) xmax = c[i][0];
-	}
-	xmin = xmax;
-	//find min x
-	for (int i = 0; i < n; i++) {
-		if (xmin > c[i][0]) xmin = c[i][0];
-	}
-	//find max y
-	ymax = c[0][1];
-	for (int i = 0; i < n; i++) {
-		if (ymax < c[i][1]) ymax = c[i][1];
-	}
-	ymin = ymax;
-	//find min y
-	for (int i = 0; i < n; i++) {
-		if (ymin > c[i][1]) ymin = c[i][1];
+	while (n--) {
+		scanf("%d %d", &x, &y);
+		xmax = (xmax <= x ? x : xmax);
+		xmin = (xmin >= x ? x : xmin);
+		ymax = (ymax <= y ? y : ymax);
+		ymin = (ymin >= y ? y : ymin);
 	}
 
 	printf("%d", (xmax - xmin) * (ymax - ymin));
+
 	return 0;
 }
