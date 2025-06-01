@@ -2,10 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int dec(int N, int c) {
-	if (c == 0) return N;
-}
-
 int main() {
 	int N;
 	scanf("%d", &N);
