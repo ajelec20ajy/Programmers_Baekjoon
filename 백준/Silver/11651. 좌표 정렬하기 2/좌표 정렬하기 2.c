@@ -28,7 +28,7 @@ void quick(int **cord, int left, int right, int c) {
 
 int main() {
 	int N; scanf("%d", &N);
-	int** cord = (int**)malloc(sizeof(int**) * N);
+	int** cord = (int**)malloc(sizeof(int*) * N);
 	for (int i = 0; i < N; i++) {
 		cord[i] = (int*)malloc(sizeof(int) * 2);
 		scanf("%d %d", &cord[i][0], &cord[i][1]); // x좌표 at 0, y좌표 at 1
