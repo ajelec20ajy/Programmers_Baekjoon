@@ -32,13 +32,13 @@ void delete_hash(char* name) {
 	int hash = get_hash(name);
 	node* cur = table[hash];
 
-	if (cur && strcmp(cur->name, name) == 0) {
+	if (strcmp(cur->name, name) == 0) {
 		table[hash] = cur->next;
 		free(cur);
 		return;
 	}
 
-	while (cur && cur->next) {
+	while (cur->next) {
 		if (strcmp(cur->next->name, name) == 0) {
 			node* temp = cur->next;
 			cur->next = cur->next->next;
