@@ -1,29 +1,28 @@
-#include<stdio.h>
+#define _CRT_SECURE_NO_WARNINGS
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 
-int main(void)
-{
-    int n, m;
-    int i, j;
-    int che[1000001] = {0,};
-    che[1] = 1;
 
-    scanf("%d %d",&m,&n);
+int main() {
+	int M, N; 
+	scanf("%d %d", &M, &N);
 
-    for(i=2; i<=n; i++)
-    {
-        for(j=2; i*j<=n; j++)
-        {
-            che[i*j] = 1;
-        }
-    }
+	int num[1000001] = { 0, }; // 1~1,000,000
+	num[0] = num[1] = 1;
 
-    for(i=m; i<=n; i++)
-    {
-        if(che[i] == 0)
-        {
-            printf("%d\n",i);
-        }
-    }
+	for (int i = 2; i*i <= N; i++) {
 
-    return 0;
+			for (int j = 2; j*i <= N; j++) {
+				num[i * j] = 1;
+			}
+		
+	}
+
+	for (int i = M; i <= N; i++) {
+		if (num[i] == 0) printf("%d\n", i);
+	}
+
+	return 0;
 }
