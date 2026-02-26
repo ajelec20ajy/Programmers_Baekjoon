@@ -5,7 +5,7 @@
 #define INF 255
 // info_rows는 2차원 배열 info의 행 길이, info_cols는 2차원 배열 info의 열 길이입니다.
 int solution(int** info, size_t info_rows, size_t info_cols, int n, int m) {
-uint8_t dp[m];
+    uint8_t dp[m];
     uint8_t next_dp[m];
     // 초기화
     for(int i = 0; i < m; i++) dp[i] = INF;
