@@ -24,7 +24,7 @@ int main() {
     int N, M, T;
     cin >> N >> M >> T;
 
-    vector<vector<int>> grid(N+1, vector<int> (M+1, 0));
+    vector<vector<int>> grid(N + 1, vector<int>(M + 1, 0));
     for (int i = 1; i <= N; i++) {
         for (int j = 1; j <= M; j++) {
             int tmp;
@@ -32,7 +32,7 @@ int main() {
             grid[i][j] = tmp;
         }
     }
-    typedef struct state{
+    typedef struct state {
         int x, y, gram;
     }state;
     queue<state> q;
@@ -41,21 +41,21 @@ int main() {
         vector<vector<int>>(M + 1, vector<int>(2, 1e9))
     );
     // [x][y][0] : gram 없을떄, [x][y][1] : 그람있을때
-    time[1][1][0] = 0; 
-    q.push({ 1, 1, 0});
+    time[1][1][0] = 0;
+    q.push({ 1, 1, 0 });
 
     while (!q.empty()) {
         state cur = q.front();
         q.pop();
+        int g = cur.gram;
+        if (grid[cur.y][cur.x] == 2) g = 1;
 
         for (int i = 0; i < 4; i++) {
             int nx = cur.x + dx[i];
             int ny = cur.y + dy[i];
-            int ng = cur.gram;
+            int ng = g;
 
             if (nx < 1 || nx > M || ny < 1 || ny > N) continue;
-
-            if (grid[ny][nx] == 2) ng = 1;
 
             if (!ng && grid[ny][nx] == 1) continue;
 
@@ -63,7 +63,7 @@ int main() {
                 time[ny][nx][ng] = time[cur.y][cur.x][cur.gram] + 1;
                 q.push({ nx,ny,ng });
             }
-        } 
+        }
     }
     int min = time[N][M][0] >= time[N][M][1] ? time[N][M][1] : time[N][M][0];
     if (min > T) cout << "Fail";
