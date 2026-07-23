@@ -4,34 +4,29 @@
 using namespace std;
 
 vector<int> solution(vector<int> progresses, vector<int> speeds) {
-    queue<int> q_p;
-    queue<int> q_s;
-    for(int i = 0; i < progresses.size(); i++){
-        q_p.push(progresses[i]);
-        q_s.push(speeds[i]);
+    // 큐를 써볼까요?
+    queue<int> q;
+    vector<int> ans;
+    vector<int> my_speeds = speeds;
+    for(int n : progresses){
+        q.push(n);
     }
-
-    vector<int> answer;
-
-    while(!q_p.empty()){
-        int current_size = q_p.size();
-        for(int i = 0; i < current_size; i++){
-            int p = q_p.front(); q_p.pop();
-            int s = q_s.front(); q_s.pop();
-            q_p.push(p + s); // 진도 업데이트해서 뒤로 보냄
-            q_s.push(s);     // 속도 그대로 뒤로 보냄
+    while(!q.empty()){
+        for(int i = 0; i<q.size(); i++){
+            int tmp = q.front();
+            tmp += my_speeds[i];
+            q.push(tmp);
+            q.pop();
         }
-
         int cnt = 0;
-        while(!q_p.empty() && q_p.front() >= 100) {
-            q_p.pop();
-            q_s.pop();
+        while(q.empty()? 0 : q.front() >= 100){
+            q.pop();
+            my_speeds.erase(my_speeds.begin());
             cnt++;
         }
-
-        if(cnt > 0) {
-            answer.push_back(cnt);
+        if(cnt){
+            ans.push_back(cnt);
         }
     }
-    return answer;
+    return ans;
 }
