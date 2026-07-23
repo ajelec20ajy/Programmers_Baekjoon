@@ -1,48 +1,38 @@
-#include <string>
-#include <vector>
-#include <queue>
-#include <stdint.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-struct info{
-    int p, i;
-};
+bool compare(const pair<int, int>& a, const pair<int, int>& b) {
+    return a.second > b.second; // 내림차순 : 앞(a)가 크면 내림차
+}
 
 int solution(vector<int> priorities, int location) {
-    queue<info> q;
-    priority_queue<int> pq;
-    uint8_t len = priorities.size();
-    uint8_t max = 0;
-    uint8_t index = 0;
-
-    for(uint8_t i = 0; i < len; i++){
-        q.push({priorities[i], i});
-        pq.push(priorities[i]);
+    vector<pair<int,int>> my_p(priorities.size());
+    vector<int> my_pp = priorities;
+    int len = my_pp.size();
+    for(int i = 0; i <len; i++){
+        my_p[i].first = i;
+        my_p[i].second = my_pp[i];
+    } // 자 이제 이 first, 즉 인덱스(로케이션) 정보까지 비교해서 판정하면 될듯
+    queue<pair<int,int>> q;
+    for(int i = 0; i<len; i++){
+        q.push({my_p[i].first, my_p[i].second});
     }
-    uint8_t flag = 1;
-    uint8_t cnt = 0;
-    // pq 다 뽑을때까지
-    while(flag){
-        uint8_t target = pq.top(); // 이번에 뽑을 태스크 = 타겟
-        cnt++;
-        do{
-            if(q.front().p == target) {
-                if(q.front().i == location){
-                    flag = 0;
-                }
-                else{
-                    pq.pop(); // 이번거 끝!
-                    q.pop();
-                }
-                break;
+    sort(my_p.begin(), my_p.end(), compare);
+    int seq = 1;
+    while(!q.empty()){
+        if(q.front().second == my_p[0].second){
+            if(q.front().first == location){
+                return seq;
             }
-            else{           
-                q.push(q.front()); // 아닌거니깐 맨뒤로가세요
-                q.pop();
-            }
-        }while(1);
+            q.pop();
+            my_p.erase(my_p.begin());
+            seq++;
+        }
+        else{
+            q.push(q.front());
+            q.pop();
+        }
     }
     
-    uint8_t answer = cnt;
-    return answer;
+   
 }
