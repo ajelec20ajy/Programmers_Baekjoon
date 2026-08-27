@@ -1,33 +1,31 @@
-#include <vector>
-#include <iostream>
-#include <stack>
+#include <bits/stdc++.h>
+
 using namespace std;
 
 vector<int> solution(vector<int> arr) 
 {
-    vector<int> answer;
-    int temp;
-    stack<int> s;
-    temp = arr[0];
-    s.push(temp);
-    for(int i = 1; i<arr.size(); i++){
-        if(temp != arr[i]){
-            temp = arr[i];
-            s.push(temp);   
+    int arr_len = arr.size();
+    stack<int> st;
+    for(int i = 0; i < arr_len; i++){
+        int tmp = arr[i];
+        if(!st.empty()){
+            if(st.top() == tmp) continue;
+            else st.push(tmp);
+        }
+        else{
+            st.push(tmp);
         }
     }
     
-    vector<int> temparr;
-    while(!s.empty()){
-        temparr.push_back(s.top());
-        s.pop();
+    int st_size = st.size();
+    cout << "st_size = " << st_size << endl;
+    vector<int> ans(st_size);
+    int i = st_size - 1;
+    while(!st.empty()){
+        ans[i] = st.top();
+        st.pop();
+        i--;
     }
     
-    for(int i = temparr.size()-1; i>=0; i--){
-        answer.push_back(temparr[i]);
-    }
-    // [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
-    cout << "Hello Cpp" << endl;
-
-    return answer;
+    return ans;
 }
