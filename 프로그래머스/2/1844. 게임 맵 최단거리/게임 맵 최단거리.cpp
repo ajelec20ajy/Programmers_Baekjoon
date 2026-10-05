@@ -1,39 +1,41 @@
 #include <bits/stdc++.h>
 using namespace std;
+int dx[4] = {1, -1, 0, 0};
+int dy[4] = {0, 0, 1, -1};
 
-int solution(vector<vector<int> > maps)
+int solution(vector<vector<int> > maps) // maps는 [y][x]
 {
-    //최단이니깐 bfs로 가자
-    vector<int> dx = {1, -1, 0, 0};
-    vector<int> dy = {0, 0, 1, -1};
-    int m = maps.size(); //세로
-    int n = maps[0].size(); // 가로
-    vector<vector<int>> visited(m, vector<int>(n, 0));
-    queue<pair<int,int>> q;
-    q.push({0, 0});
-    visited[0][0] = 1;
-    //x방향이 2차원이고 y방향이 1차원이다
-
+    // 그런거라면 와타시는 stack을 쓰겠습니다.
+    
+    queue<pair<int,int>> q; // first=x, second=y;
+    vector<vector<int>> visited(maps.size(), vector<int>(maps[0].size(), 0));
+    
+    q.push({0,0});
+    
+    int target_x = maps[0].size() - 1;
+    int target_y = maps.size() - 1;
+    
     while(!q.empty()){
-        pair<int,int> current = q.front();
+        pair<int,int> now = q.front();
         q.pop();
-        if(current.first == n-1 && current.second == m-1){
-            return visited[current.second][current.first];
-        }
-        
+
         for(int i = 0; i < 4; i++){
-            int nx = current.first + dx[i];
-            int ny = current.second + dy[i];
+            int next_x = now.first + dx[i];
+            int next_y = now.second + dy[i];
             
-            if((nx<0) || (nx>=n) || (ny<0) || (ny>=m)) continue;
-            if(maps[ny][nx] == 0) continue;
-            if(visited[ny][nx]) continue;
+            // 1. 범위검사
+            if(next_x < 0 || next_x >= maps[0].size() || next_y < 0 || next_y >= maps.size()) continue;
+            // 2. visited 검사
+            if(visited[next_y][next_x]) continue;
+            // 3. 벽 검사
+            if(maps[next_y][next_x] == 0) continue;
             
-            visited[ny][nx] = visited[current.second][current.first]+1;
-            q.push({nx, ny});
-            
+            q.push({next_x, next_y});
+            visited[next_y][next_x] = visited[now.second][now.first]+1;
         }
     }
     
-    return -1;
+    
+    int ans = visited[target_y][target_x];
+    return ans == 0 ? -1 : ans+1;
 }
